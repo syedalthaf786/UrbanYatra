@@ -1,328 +1,64 @@
+# Ubranyatra Java Console Project
 
-# 🏙️ UrbanYatra
+A modular Java console application organized into Java packages.
 
-### City Tour Package & Ride Management System
+## Package structure
 
-UrbanYatra is a **console-based Java application** designed to provide a convenient platform for exploring and booking city tour packages. The system combines **tour package management, vehicle selection, dynamic pricing, customer booking, rider assignment, ride tracking, and administrative management** in one application.
+- `com.ubranyatra.app` — application entry point
+- `com.ubranyatra.model` — UserRecord, TourPackage, RideRecord
+- `com.ubranyatra.service` — user/package/ride storage and fare calculation
+- `com.ubranyatra.ui` — login, customer, rider and admin menus
+- `com.ubranyatra.util` — console input helper
 
----
+## Requirements
 
-## 📌 Project Overview
+Java JDK 8 or later.
 
-Customers can register and log in to the system, explore cities and available tour packages, view destinations included in each package, select the number of passengers and vehicle type, view the dynamically calculated price, and book a tour package.
+## Compile and run
 
-After a booking is confirmed, an available rider can be assigned to the booking. Riders can view their assigned rides, accept or reject rides, reach the customer's pickup point, mark the customer as picked up, start the ride, and complete each destination or package section.
+From the project root directory:
 
-Once all sections are completed, the rider can complete the ride and immediately view the **ride duration, earnings, and completion details**.
-
-Administrators manage the complete system, including **customers, riders, cities, tour packages, destinations, vehicles, pricing rules, bookings, rider assignments, and reports**.
-
----
-
-## 🎯 Project Objective
-
-The main objective of **UrbanYatra** is to create a simple but well-structured city tour and ride management system while demonstrating how **Java Object-Oriented Programming concepts** can be applied to a practical real-world application.
-
----
-
-## 🚀 Main Features
-
-* 👤 User Registration & Authentication
-* 🔐 Role-Based Login
-* 👥 Customer, Rider & Admin Roles
-* 🏙️ City Management
-* 📦 Tour Package Management
-* 📍 Destination Management
-* 🧭 Package Section Management
-* 🚗 Vehicle Management
-* 💰 Dynamic Pricing
-* 📝 Customer Booking
-* 🧑‍✈️ Rider Assignment
-* 📍 Ride Progress Tracking
-* ✅ Package Section Completion
-* 💵 Rider Earnings
-* 📊 Reports
-* ⚠️ Exception Handling
-* 🕒 Date & Time Management
-* 💾 Array-Based In-Memory Data Storage
-* 🖥️ Console-Based Menus
-
----
-
-## 👥 Target Users
-
-### 👤 Customer
-
-Customers can:
-
-* Register an account
-* Log in
-* View cities
-* View tour packages
-* View package destinations
-* Select number of passengers
-* Select vehicle type
-* View dynamic pricing
-* Book a package
-* View booking details
-* Track ride status
-* View ride history
-* Cancel bookings
-
-### 🧑‍✈️ Rider
-
-Riders can:
-
-* Log in
-* View assigned rides
-* Accept or reject rides
-* Mark customer as reached
-* Mark customer as picked up
-* Start the ride
-* Complete package sections
-* Complete the ride
-* View ride duration
-* View earnings
-* View ride history
-
-### 👨‍💼 Admin
-
-Administrators can:
-
-* Manage customers
-* Manage riders
-* Manage cities
-* Create and update tour packages
-* Manage destinations
-* Manage vehicles
-* Configure pricing
-* Assign riders
-* Manage bookings
-* Monitor rides
-* View reports
-
----
-
-## 💰 Dynamic Pricing
-
-UrbanYatra calculates the final price dynamically based on package, passengers, and vehicle selection.
-
-### Formula
-
-```text
-Final Price =
-Base Package Price
-+ Passenger Charge
-+ Vehicle Charge
-+ Additional Charges
+```bash
+javac -d out src/com/ubranyatra/app/Main.java src/com/ubranyatra/model/*.java src/com/ubranyatra/service/*.java src/com/ubranyatra/ui/*.java src/com/ubranyatra/util/*.java
+java -cp out com.ubranyatra.app.Main
 ```
 
-### Example
+Or use `run.bat` on Windows / `run.sh` on macOS or Linux.
 
-```text
-Base Package Price = ₹1000
-Passenger Charge    = ₹200
-Vehicle Charge      = ₹300
+## Admin login
 
-Final Price         = ₹1500
-```
+- Username: `admin`
+- Password: `admin123`
 
-The pricing rules can be managed by the administrator.
+## Features
 
----
+- Customer and rider registration/login
+- Customer profile updates and booking history
+- Admin creates, views, updates and deletes tour packages
+- Packages store a destination and an estimated distance
+- Customer chooses a package and vehicle; destination is filled from the package
+- Rapido-style demonstration fare: base fare + (estimated distance × vehicle rate)
+- Customer sees only the total fare; individual vehicle rates are not shown
+- Riders accept/reject pending rides and complete accepted rides
+- Admin manages accounts and views rides/statistics
+- Data is persisted in `data/users.txt`, `data/packages.txt`, and `data/rides.txt`
 
-## 🚗 Vehicle Types
+## Illustrative fare rates (not actual Rapido rates)
 
-UrbanYatra supports different vehicle types:
+- Bike: base ₹15 + ₹6/km
+- Auto: base ₹25 + ₹10/km
+- Sedan: base ₹40 + ₹14/km
+- SUV: base ₹60 + ₹18/km
 
-* 🏍️ Bike
-* 🛺 Auto
-* 🚗 Car
+The estimated distance is entered by the admin when creating a tour package. This console demo does not use GPS or a maps API, so it does not calculate live road distance. Connect a routing/maps service for real distance estimates.
 
-Each vehicle type can have its own pricing and capacity rules.
+## OOP: The Four Pillars
 
----
+This version explicitly demonstrates all four pillars of object-oriented programming:
 
-## 🧭 Ride Flow
+1. **Encapsulation** — `UserRecord` stores account fields as `private`. Other classes use getters and controlled setters.
+2. **Inheritance** — `CustomerRecord`, `RiderRecord`, and `AdminRecord` extend the abstract `UserRecord` class and reuse its shared account data.
+3. **Polymorphism** — each subclass overrides `getWelcomeMessage()`. `AuthMenu` calls `user.getWelcomeMessage()` through a `UserRecord` reference, and Java chooses the matching subclass implementation at runtime.
+4. **Abstraction** — `UserRecord` is an `abstract` class and declares `getWelcomeMessage()` as an abstract method. Each account subtype must provide its own implementation.
 
-The rider follows a controlled ride process:
-
-```text
-Assigned
-   ↓
-Accept Ride
-   ↓
-Reached Customer
-   ↓
-Picked Up Customer
-   ↓
-Start Ride
-   ↓
-Complete Package Sections
-   ↓
-Complete Ride
-   ↓
-Generate Earnings
-   ↓
-Display Ride Duration & Completion Details
-```
-
-Example package progress:
-
-```text
-[✓] Charminar
-[✓] Chowmahalla Palace
-[ ] Salar Jung Museum
-[ ] Golconda Fort
-```
-
-A ride can only be completed after all required package sections are completed.
-
----
-
-## 🧱 OOP Concepts Demonstrated
-
-This project is designed specifically to demonstrate important Java OOP concepts.
-
-### Classes & Objects
-
-The system contains classes such as:
-
-```text
-User
-Customer
-Rider
-Admin
-City
-TourPackage
-Destination
-Vehicle
-Booking
-Ride
-Earning
-```
-
-### Encapsulation
-
-Important data members are kept private and accessed through controlled methods.
-
-### Abstraction
-
-Abstract classes are used for common concepts:
-
-```text
-User
-Vehicle
-```
-
-### Inheritance
-
-Examples:
-
-```text
-User
- ├── Customer
- ├── Rider
- └── Admin
-```
-
-```text
-Vehicle
- ├── Bike
- ├── Auto
- └── Car
-```
-
-### Interface
-
-The `Authenticatable` interface provides common authentication behavior for users.
-
-### Polymorphism
-
-Different vehicle classes override vehicle pricing behavior.
-
-```text
-Bike → calculateVehicleCharge()
-Auto → calculateVehicleCharge()
-Car  → calculateVehicleCharge()
-```
-
-### Association
-
-Examples:
-
-```text
-Customer → Booking
-Booking → TourPackage
-Booking → Vehicle
-Rider → Ride
-```
-
-### Aggregation
-
-```text
-City → TourPackage
-```
-
-A city can contain multiple tour packages.
-
-### Composition
-
-```text
-TourPackage → PackageSection
-Ride → RideSection
-```
-
-These sections belong to their respective parent objects.
-
-### Static & Non-Static Members
-
-Static members are used for shared system data, constants, and counters, while non-static members represent individual object data.
-
-### Arrays
-
-Arrays are used for in-memory storage instead of a database.
-
-### Exception Handling
-
-Custom exceptions are used for invalid operations such as:
-
-```text
-InvalidLoginException
-InvalidBookingException
-PackageNotFoundException
-RiderNotAvailableException
-InvalidRideStateException
-InvalidInputException
-```
-
-### Java Packages
-
-The project is divided into logical Java packages to improve organization and maintainability.
-
-### Date & Time
-
-`LocalDateTime` is used for:
-
-* Booking time
-* Ride start time
-* Pickup time
-* Completion time
-* Earning time
-
----
-
-## 📁 Project Structure
-
-```text
-UrbanYatra/
-│
-└── src/
-    │
-    ├── main/
-    │   └── Main.java
-    │
-    ├── users/
-    │   ├── User.java
-    │   ├── Customer.j
-```
+User records are still stored in the same pipe-separated text-file format, so the file-based persistence design remains in place.

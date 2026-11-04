@@ -1,0 +1,4 @@
+
+1|Hyderabad City Tour|Popular city sightseeing tour|Hyderabad|15.0|Charminar;Chowmahalla Palace;Mecca Masjid;Laad Bazaar
+2|Araku Valley Tour|Scenic hill station tour|Araku Valley|120.0|Araku Tribal Museum;Padmapuram Gardens;Borra Caves;Katiki Waterfalls
+3|Vizag Beach Tour|Coastal sightseeing tour|Visakhapatnam|35.0|RK Beach;Kailasagiri;Rushikonda Beach;Submarine Museum4|Hyderabad Museum|discover historical species|hyderabad|45.0|
